@@ -1,7 +1,7 @@
-import React from 'react';
-import './header.less';
+import React, {Component} from 'react';
+import './index.less';
 
-const Hello = React.createClass({
+export default class Header extends Component {
   render() {
     return (
       <div className='components-header row'>
@@ -10,6 +10,4 @@ const Hello = React.createClass({
       </div>
     )
   }
-})
-
-export default Hello
+}
