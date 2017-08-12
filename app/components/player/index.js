@@ -7,12 +7,14 @@ export default class Player extends Component {
     super()
     this.onChangeProgressHandle = this.onChangeProgressHandle.bind(this)
     this.onChangeVolumeHandle = this.onChangeVolumeHandle.bind(this)
+    this.playFlag = this.playFlag.bind(this)
     this.state = {
       progress: 0,
       volume: 0,
       backColor: '#2f9842',
       volumeBackColor: 'red',
       duraction: null,
+      isPlay: true
     }
   }
   componentDidMount() {
@@ -32,6 +34,16 @@ export default class Player extends Component {
   }
   onChangeVolumeHandle(progress) {
     $('#player').jPlayer('volume', progress)
+  }
+  playFlag() {
+    if (this.state.isPlay) {
+      $('#player').jPlayer('pause')
+    } else {
+      $('#player').jPlayer('play')
+    }
+    this.setState({
+      isPlay: !this.state.isPlay
+    })
   }
   render() {
     const {
@@ -78,7 +90,7 @@ export default class Player extends Component {
                    <div className="mt35 row">
                      <div>
                        <i className="icon prev" onClick={this.prev}></i>
-                       <i className={`icon ml20 ${this.state.isPlay ? 'pause' : 'play'}`} onClick={this.play}></i>
+                       <i className={`icon ml20 ${this.state.isPlay ? 'pause' : 'play'}`} onClick={this.playFlag}></i>
                        <i className="icon next ml20" onClick={this.next}></i>
                      </div>
                      <div className="-col-auto">
