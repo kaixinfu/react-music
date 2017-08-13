@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router'
+import Pubsub from 'pubsub-js';
 import ProgressBar from '../commont/progressBar'
 import './index.less'
 
@@ -15,7 +16,8 @@ export default class Player extends Component {
       backColor: '#2f9842',
       volumeBackColor: 'red',
       duraction: null,
-      isPlay: true
+      isPlay: true,
+      endTime: ''
     }
   }
   componentDidMount() {
@@ -23,9 +25,17 @@ export default class Player extends Component {
       this.setState({
         duration: _.jPlayer.status.duration,
         progress: Math.round(_.jPlayer.status.currentPercentAbsolute),
-        volume: _.jPlayer.options.volume * 100
+        volume: _.jPlayer.options.volume * 100,
+        endTime: _.jPlayer.status.duration * (1 - _.jPlayer.status.currentPercentAbsolute / 100)
       })
     })
+  }
+  getTime(time) {
+    time = Math.floor(time)
+    let miniutes = Math.floor(time / 60)
+    let seconds = Math.floor(time % 60)
+    seconds = seconds < 10 ? '0' + seconds : seconds
+    return miniutes + ':' + seconds
   }
   componentWillUnMount() {
     $('#player').bind($.jPlayer.event.timeupdate)
@@ -45,6 +55,12 @@ export default class Player extends Component {
     this.setState({
       isPlay: !this.state.isPlay
     })
+  }
+  playPrev() {
+    Pubsub.publish('PLAY_PREV')
+  }
+  playNext() {
+    Pubsub.publish('PLAY_NEXT')
   }
   render() {
     const {
@@ -70,7 +86,7 @@ export default class Player extends Component {
                    <h2 className="music-title">{title}</h2>
                    <h3 className="music-artist mt10">{artist}</h3>
                    <div className="row mt20">
-                     <div className="left-time -col-auto">-2:00</div>
+                     <div className="left-time -col-auto">-{this.getTime(this.state.endTime)}</div>
                      <div className="volume-container">
                        <i className="icon-volume rt" style={{top: 5, left: -5}}></i>
                        <div className="volume-wrapper">
@@ -91,9 +107,9 @@ export default class Player extends Component {
                    </div>
                    <div className="mt35 row">
                      <div>
-                       <i className="icon prev" onClick={this.prev}></i>
+                       <i className="icon prev" onClick={this.playPrev}></i>
                        <i className={`icon ml20 ${this.state.isPlay ? 'pause' : 'play'}`} onClick={this.playFlag}></i>
-                       <i className="icon next ml20" onClick={this.next}></i>
+                       <i className="icon next ml20" onClick={this.playNext}></i>
                      </div>
                      <div className="-col-auto">
                        <i className='icon repeat-cycle' onClick={this.changeRepeat}></i>
