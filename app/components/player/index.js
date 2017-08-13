@@ -4,6 +4,8 @@ import Pubsub from 'pubsub-js';
 import ProgressBar from '../commont/progressBar'
 import './index.less'
 
+let duraction = null
+
 export default class Player extends Component {
   constructor() {
     super()
@@ -15,20 +17,24 @@ export default class Player extends Component {
       volume: 0,
       backColor: '#2f9842',
       volumeBackColor: 'red',
-      duraction: null,
       isPlay: true,
       endTime: ''
     }
   }
   componentDidMount() {
-    $('#player').bind($.jPlayer.event.timeupdate, _ => {
+    $('#player').bind($.jPlayer.event.timeupdate, (e) => {
+      duraction = e.jPlayer.status.duration
+      const volume = e.jPlayer.options.volume
+      const currentPercentAbsolute = e.jPlayer.status.currentPercentAbsolute
       this.setState({
-        duration: _.jPlayer.status.duration,
-        progress: Math.round(_.jPlayer.status.currentPercentAbsolute),
-        volume: _.jPlayer.options.volume * 100,
-        endTime: _.jPlayer.status.duration * (1 - _.jPlayer.status.currentPercentAbsolute / 100)
+        progress: Math.round(currentPercentAbsolute),
+        volume:  volume * 100,
+        endTime: this.getTime(duraction * (1 - currentPercentAbsolute / 100))
       })
     })
+  }
+  componentWillUnMount() {
+    $('#player').unbind($.jPlayer.event.timeupdate)
   }
   getTime(time) {
     time = Math.floor(time)
@@ -37,11 +43,8 @@ export default class Player extends Component {
     seconds = seconds < 10 ? '0' + seconds : seconds
     return miniutes + ':' + seconds
   }
-  componentWillUnMount() {
-    $('#player').bind($.jPlayer.event.timeupdate)
-  }
   onChangeProgressHandle(progress) {
-    $('#player').jPlayer('play', this.state.duration * progress)
+    $('#player').jPlayer('play', duraction * progress)
   }
   onChangeVolumeHandle(progress) {
     $('#player').jPlayer('volume', progress)
@@ -67,6 +70,7 @@ export default class Player extends Component {
       progress,
       volume,
       backColor,
+      endTime,
       volumeBackColor,
     } = this.state
     const {
@@ -86,7 +90,7 @@ export default class Player extends Component {
                    <h2 className="music-title">{title}</h2>
                    <h3 className="music-artist mt10">{artist}</h3>
                    <div className="row mt20">
-                     <div className="left-time -col-auto">-{this.getTime(this.state.endTime)}</div>
+                     <div className="left-time -col-auto">-{endTime}</div>
                      <div className="volume-container">
                        <i className="icon-volume rt" style={{top: 5, left: -5}}></i>
                        <div className="volume-wrapper">

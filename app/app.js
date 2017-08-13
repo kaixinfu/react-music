@@ -38,7 +38,6 @@ export default class App extends Component {
       this.setState({
         musicList: this.state.musicList.filter(_ => _ !== miusicItem)
       })
-      console.log(this.state.musicList)
     })
     Pubsub.subscribe('PLAY_PREV', (msg, miusicItem) => {
       this.playNext('prev')
