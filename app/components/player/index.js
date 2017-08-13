@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ProgressBar from '../progressBar'
+import ProgressBar from '../commont/progressBar'
 import './index.less'
 
 export default class Player extends Component {
