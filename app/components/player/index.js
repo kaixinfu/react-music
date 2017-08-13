@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router'
 import ProgressBar from '../commont/progressBar'
 import './index.less'
 
@@ -62,7 +63,8 @@ export default class Player extends Component {
     return (
       <div className="player-page">
                <h1 className="caption">
-               我的私人音乐坊 &gt;</h1>
+                <Link to="list">我的私人音乐坊 &gt;</Link>
+               </h1>
                <div className="mt20 row">
                  <div className="controll-wrapper">
                    <h2 className="music-title">{title}</h2>
@@ -80,7 +82,7 @@ export default class Player extends Component {
                        </div>
                      </div>
                    </div>
-                   <div style={{height: 10, lineHeight: '10px'}}>
+                   <div style={{height: 10, lineHeight: '10px', marginTop: '20px'}}>
                      <ProgressBar
                        progress={progress}
                        backColor={backColor}

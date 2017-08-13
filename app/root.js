@@ -1,38 +1,21 @@
 import React, {Component} from 'react';
+import {Router, IndexRoute, Link, Route, hashHistory} from 'react-router'
+
 import Header from './components/header'
+import Player from './components/player'
 import MusicList from './components/player/musicList'
 import {MUSIC_LIST} from '../config/musicList'
+import App from './app'
 
 export default class Root extends Component {
-  constructor() {
-    super()
-    this.state = {
-      musicList: MUSIC_LIST,
-      currentMusicItem: MUSIC_LIST[2]
-    }
-  }
-  componentDidMount() {
-    $('#player').jPlayer({
-      ready: function() {
-        $('#player').jPlayer('setMedia', {
-          mp3: 'http://oj4t8z2d5.bkt.clouddn.com/%E9%A3%8E%E7%BB%A7%E7%BB%AD%E5%90%B9.mp3'
-        })
-        // }).jPlayer('play');
-      },
-      supplied: 'mp3',
-      wmode: 'window'
-    });
-  }
-  componentWillUnMount() {
-  }
-  onChangeProgressHandle(progress) {
-  }
   render() {
     return (
-      <div>
-        <Header />
-        <MusicList musicList={this.state.musicList} currentMusicItem={this.state.currentMusicItem} />
-      </div>
+      <Router history={hashHistory}>
+        <Route path="/" component={App}>
+          <IndexRoute component={Player} ></IndexRoute>
+          <Route path="/list" component={MusicList}></Route>
+        </Route>
+      </Router>
     )
   }
 }
