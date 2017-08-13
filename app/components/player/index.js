@@ -79,7 +79,7 @@ export default class Player extends Component {
     return (
       <div className="player-page">
                <h1 className="caption">
-                <Link to="list">我的私人音乐坊 &gt;</Link>
+                <Link to="/list">我的私人音乐坊 &gt;</Link>
                </h1>
                <div className="mt20 row">
                  <div className="controll-wrapper">
