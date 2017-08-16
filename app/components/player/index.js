@@ -5,6 +5,7 @@ import ProgressBar from '../commont/progressBar'
 import './index.less'
 
 let duraction = null
+let flag = true
 
 export default class Player extends Component {
   constructor() {
@@ -26,14 +27,17 @@ export default class Player extends Component {
       duraction = e.jPlayer.status.duration
       const volume = e.jPlayer.options.volume
       const currentPercentAbsolute = e.jPlayer.status.currentPercentAbsolute
-      this.setState({
-        progress: Math.round(currentPercentAbsolute),
-        volume:  volume * 100,
-        endTime: this.getTime(duraction * (1 - currentPercentAbsolute / 100))
-      })
+      if (flag) {
+        this.setState({
+          progress: Math.round(currentPercentAbsolute),
+          volume:  volume * 100,
+          endTime: this.getTime(duraction * (1 - currentPercentAbsolute / 100))
+        })
+      }
     })
   }
-  componentWillUnMount() {
+  componentWillUnmount() {
+    flag = false
     $('#player').unbind($.jPlayer.event.timeupdate)
   }
   getTime(time) {
