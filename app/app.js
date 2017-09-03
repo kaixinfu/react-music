@@ -1,9 +1,14 @@
 import React, {Component} from 'react';
 import Pubsub from 'pubsub-js'
-import Header from './components/header'
-import MusicList from './components/player/musicList'
-import {MUSIC_LIST} from '../config/musicList'
 import {Router, IndexRouter, Link, Route, hashHistory} from 'react-router'
+import {Provider} from 'react-redux';
+
+import Header from './components/header'
+// import MusicList from './components/player/musicList'
+import {MUSIC_LIST} from '../config/musicList'
+import createStore from './store/createStore'
+
+const store = createStore()
 
 export default class App extends Component {
   constructor() {
@@ -76,12 +81,12 @@ export default class App extends Component {
   }
   render() {
     return (
-      <div>
-        <Header />
-        {
-          React.cloneElement(this.props.children, this.state)
-        }
-      </div>
+      <Provider store={store}>
+        <div>
+          <Header />
+          {React.cloneElement(this.props.children, this.state)}
+        </div>
+      </Provider>
     )
   }
 }
