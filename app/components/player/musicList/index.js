@@ -10,7 +10,7 @@ class MusicList extends Component {
       musicList,
       currentMusicItem
     } = this.props
-    console.log('this.props.item', this.props.items)
+    console.log('musicList >>> render')
     return (
       <div>
       <div><Link to="/">{'<'}</Link></div>

@@ -15,6 +15,7 @@ export default class MusicListItem extends Component {
     const {
       item
     } = this.props
+    console.log('MusicListItem >>>> render')
     return (
       <li onClick={this.playMusic.bind(this, item)} className={`row components-listitem${this.props.focus ? ' focus' : ''}`}>
           <p><span className="bold">{item.title}</span>  -  {item.artist}</p>

@@ -1,4 +1,5 @@
 import {MUSIC_LIST} from '../../config/musicList'
+import * as types from '../constants/ActionsTypes'
 
 export const getMisucList = _ => (dispatch) => {
   dispatch({

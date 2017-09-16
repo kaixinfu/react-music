@@ -7,6 +7,8 @@ import Header from './components/header'
 // import MusicList from './components/player/musicList'
 import {MUSIC_LIST} from '../config/musicList'
 import createStore from './store/createStore'
+import Player from './components/player'
+// import root from './root'
 
 const store = createStore()
 
@@ -84,7 +86,7 @@ export default class App extends Component {
       <Provider store={store}>
         <div>
           <Header />
-          {React.cloneElement(this.props.children, this.state)}
+          <Player />
         </div>
       </Provider>
     )

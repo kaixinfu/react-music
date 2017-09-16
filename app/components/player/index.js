@@ -1,13 +1,17 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router'
 import Pubsub from 'pubsub-js';
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import ProgressBar from '../commont/progressBar'
+import {MUSIC_LIST} from '../../../config/musicList'
 import './index.less'
+import * as musicActions from '../../actions/music'
 
 let duraction = null
 let flag = true
 
-export default class Player extends Component {
+class Player extends Component {
   constructor() {
     super()
     this.onChangeProgressHandle = this.onChangeProgressHandle.bind(this)
@@ -19,10 +23,18 @@ export default class Player extends Component {
       backColor: '#2f9842',
       volumeBackColor: 'red',
       isPlay: true,
-      endTime: ''
+      endTime: '',
+      musicList: MUSIC_LIST,
+      currentMusicItem: MUSIC_LIST[0]
     }
   }
   componentDidMount() {
+    const {
+      musicActions: {
+        getMisucList
+      }
+    } = this.props
+    getMisucList()
     $('#player').bind($.jPlayer.event.timeupdate, (e) => {
       duraction = e.jPlayer.status.duration
       const volume = e.jPlayer.options.volume
@@ -76,14 +88,19 @@ export default class Player extends Component {
       backColor,
       endTime,
       volumeBackColor,
-    } = this.state
-    const {
-      currentMusicItem: {
+      musicList: {
         title,
         artist,
         cover
       }
-    } = this.props
+    } = this.state
+    // const {
+    //   currentMusicItem: {
+    //     title,
+    //     artist,
+    //     cover
+    //   }
+    // } = this.props
     return (
       <div className="player-page">
                <h1 className="caption">
@@ -132,3 +149,13 @@ export default class Player extends Component {
     )
   }
 }
+
+const mapStateToProps = (state, ownProps) => ({
+  items: state.music.items.list || []
+})
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  musicActions: bindActionCreators(musicActions, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Player)
