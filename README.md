@@ -1,6 +1,6 @@
 # React-music
 
-> react+redux+react-router+webpack+Babel????????
+> react+redux+react-router+webpack+Babel开发的音乐播放器
 
 ## Contains
 
@@ -19,9 +19,9 @@
 
 > `npm install`
 
-## ????
-> develop????redux,master????pubsub-js
-> ?????ant.design
+## 数据管理
+> develop正在集成redux,master目前在使用pubsub-js
+> 后期会引入ant.design
 
 ## Dev
 
