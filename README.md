@@ -20,9 +20,14 @@
 > `npm install`
 
 ## 数据管理
-> develop正在集成redux,master目前在使用pubsub-js
+> develop正在集成redux
+
+> master目前在使用pubsub-js
+
 > 后期会引入ant.design
 
 ## Dev
+
+> `localhost:3000`
 
 > `npm start`

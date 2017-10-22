@@ -20,6 +20,16 @@ module.exports = {
         inject: 'body',
         filename: './index.html'
       }),
+	  new webpack.DefinePlugin({
+		  'process.env': {
+			  NODE_ENV: '"production"'
+		  }
+	  }),
+	  new webpack.optimize.UglifyJsPlugin({
+		  compress: {
+			  warnings: false
+		  }
+	  }),
       new webpack.optimize.OccurenceOrderPlugin(),
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoErrorsPlugin(),
